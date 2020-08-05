@@ -1,0 +1,18 @@
+@import'~bootstrap';
+
+body {
+    background-color: lightgray;
+}
+
+td {
+   height: 2rem;
+   width: 2rem;
+   cursor: pointer;
+   border: solid 1px black;
+   text-align: center;
+}
+
+.example-div {
+	margin-left: 1rem;
+	margin-top: 1rem;
+}

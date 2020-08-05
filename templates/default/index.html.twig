@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game!{% endblock %}
+
+{% block body %}
+
+<div class="example-div">
+	<table>
+	{% set count = 0 %}
+	{% for i in 0..2 %}
+	<tr>
+		<td class="square pos{{ count }}" onClick="myTurn( '{{ path('select_cell', {component: 'pos' ~ count , cell: count })|escape('js') }}' );"></td>
+		<td class="square pos{{ count + 1 }}" onClick="myTurn( '{{ path('select_cell', {component: 'pos' ~ (count + 1) , cell: count + 1 })|escape('js') }}' );"></td>
+		<td class="square pos{{ count + 2 }}" onClick="myTurn( '{{ path('select_cell', {component: 'pos' ~ (count + 2) , cell: count + 2 })|escape('js') }}' );"></td>
+		{% set count = count + 3 %}
+	</tr>
+	{% endfor %}	
+</table>
+
+<p class="game-info">{{ turn }}</p>
+<a href="{{ path('default') }}">Reset game</a>
+</div>
+{% endblock %}
