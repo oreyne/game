@@ -22,15 +22,24 @@ $(document).ready(function() {
 		    })
 	  		.done (
 	  			function (response) {
-			    	if (response['winner'] === true){
-				        $('.game-info')[0].innerHTML = 'Winner: ' + response['played'];
-				        if (response['played'] !== response['player'])
-				        	$('.' + response['component'])[0].innerHTML = response['played'];
+	  				var information = $('.game-info')[0];
+	  				var cell = $('.' + response['component'])[0];
+			    	if (response['winner'] === true) {
+				        information.innerHTML = 'Winner: ' + response['played'];
+
+				        if (response['played'] !== response['player']) {
+				        	cell.innerHTML = response['played'];
+				        }
 			    	} else {
-			    		if (response['played'] !== response['player']) {
-			    			$('.game-info')[0].innerHTML = 'Next player: ' + response['player'];
-				        	$('.' + response['component'])[0].innerHTML = response['played'];
-			    		}
+			    		if (response['tie'] !== "") {
+			    			information.innerHTML = response['tie'];
+			    			cell.innerHTML = response['played'];
+			    		} else {
+			    			if (response['played'] !== response['player']) {
+				    			information.innerHTML = 'Next player: ' + response['player'];
+					        	cell.innerHTML = response['played'];
+				    		}
+			    		}			    		
 			    	}
 		    })
 		    .fail(function (response) {

@@ -69,6 +69,7 @@ class DefaultController extends AbstractController
     public function playGame(string $component, string $cell) {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository(Player::class);
+        $tie = "";
 
         try {        
             $player = $repository->findOneBy(['turn' => true ]);
@@ -86,7 +87,8 @@ class DefaultController extends AbstractController
                     'component' => $component, 
                     'played' => $player->getText(true), 
                     'player' => $player->getText(true),
-                    'winner' => true
+                    'winner' => true,
+                    'tie' => $tie
                 ), $status = 200, $headers = [], $context = []);
             }
 
@@ -100,18 +102,24 @@ class DefaultController extends AbstractController
                     'component' => $component, 
                     'played' => $player->getText(true), 
                     'player' => $player->getText(true),
-                    'winner' => false
+                    'winner' => false,
+                    'tie' => $tie
                 ), $status = 200, $headers = [], $context = []);
             }
 
             $winner = false;
             $current[intval($cell)] = $player->getText();
             $player->setTurn(!$player->getTurn());
+            
 
             if ($this->winner->calculateWinner($current)) {
                 $winner = true;
                 $player->setWinner(true);              
             } else {
+                if (!in_array(null, $current)) {
+                    $tie = 'Nobody won';
+                }
+
                 $current = $this->winner->convertToString($current);                                                
                 $history = new Square();
                 $history->setValue($current);
@@ -124,7 +132,8 @@ class DefaultController extends AbstractController
                     'component' => $component, 
                     'played' => $player->getText(true), 
                     'player' => $player->getText(),
-                    'winner' => $winner
+                    'winner' => $winner, 
+                    'tie' => $tie
                 ), $status = 200, $headers = [], $context = []);
 
         } catch(\Exception $e) {
