@@ -19,15 +19,20 @@ Procesa con los siguientes comandos, como se plantea en la [documentacón oficia
 4. composer install
 
 ### Pasos finales
-
 Haga una copia del fichero `.env` que se encuentra en la raíz del proyecto, nombrelo `.env.local` y modifique la linea 32, con las credenciales para acceder a su servidor de 
  base de datos, nombre de la base de datos y versión del servidor: `DATABASE_URL=mysql://USUARIO:CONTRASEÑA@127.0.0.1:3306/NOMBRE_DE_BASE_DE_DATOS?serverVersion=VERSION_DEL_SERVIDOR`. Para mayor información consulte la documentación oficial
 
-Activamos el webpack para generar los css y js necesarios, con el comando `yarn encore dev --watch`.
+Ejecute los siguientes comandos en caso de que no posea la base de datos: `bin/console doctrine:database:create` para crear la base de datos, y luego `bin/console doctrine:schema:create` para crear las tablas
+
+Activamos el webpack para generar los css y js necesarios, con los siguientes comandos como se muestra en la [documentación oficial](https://symfony.com/doc/current/frontend/encore/installation.html#installing-encore-in-symfony-applications): 
+
+1. `composer require symfony/webpack-encore-bundle`.
+2. `yarn install`.
+3. `yarn encore dev --watch`.
+
 Finalmente, ejecutamos el comando `symfony server:start`, el cual nos muestra una url a la cual podemos acceder para ver el juego en nuestro navegador
 
-En caso de que al ejecutar este último comando, le solicitan la inserción de un usuario y contraseña; para ello es necesario que se cree una cuenta
-en [Sf Connect](https://connect.symfony.com/login)
+En caso de que al ejecutar este último comando, le solicitan la inserción de un usuario y contraseña; para ello es necesario que se cree una cuenta en [Sf Connect](https://connect.symfony.com/login)
 
 ## Explicación del patrón MVC y lógica del juego
 
